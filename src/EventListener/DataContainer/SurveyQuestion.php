@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Mvo\ContaoSurvey\EventListener\DataContainer;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\DataContainer;
 use Mvo\ContaoSurvey\Entity\Question;
@@ -21,16 +22,18 @@ use Twig\Environment;
 class SurveyQuestion implements ServiceAnnotationInterface
 {
     private QuestionRepository $questionRepository;
-    private Registry $registry;
+    private Registry           $registry;
     private TranslatorInterface $translator;
     private Environment $twig;
+    private ContaoFramework $framework;
 
-    public function __construct(QuestionRepository $questionRepository, Registry $registry, TranslatorInterface $translator, Environment $twig)
+    public function __construct(QuestionRepository $questionRepository, Registry $registry, TranslatorInterface $translator, Environment $twig, ContaoFramework $framework)
     {
         $this->questionRepository = $questionRepository;
         $this->registry = $registry;
         $this->translator = $translator;
         $this->twig = $twig;
+        $this->framework = $framework;
     }
 
     /**
