@@ -112,6 +112,8 @@ services:
       - '@mvo.survey.repository.question'
       - '@mvo.survey.registry'
       - '@security.helper'
+    calls:
+      - [setContainer, ['@service_container']]
 
   Mvo\ContaoSurvey\Controller\ClearRecordsController:
     public: true
@@ -128,6 +130,8 @@ services:
       - '@mvo.survey.repository.survey'
       - !tagged_locator { tag: 'mvo.survey.report.exporter', default_index_method: 'getName' }
       - '@contao.slug.generator'
+    calls:
+      - [setContainer, ['@service_container']]
 
   Mvo\ContaoSurvey\Controller\SurveyFragment:
     arguments:
@@ -139,6 +143,8 @@ services:
       - '%contao.csrf_token_name%'
     tags:
       - { name: 'terminal42_service_annotation' }
+    calls:
+      - [setContainer, ['@service_container']]
 
   mvo.survey.listener.datacontainer.survey:
     class: Mvo\ContaoSurvey\EventListener\DataContainer\Survey
@@ -175,7 +181,7 @@ services:
       - { name: 'terminal42_service_annotation' }
     arguments:
       - '@mvo.survey.repository.question'
+      - '@doctrine.orm.entity_manager'
       - '@mvo.survey.registry'
       - '@translator'
       - '@twig'
-      - '@contao.framework'
